@@ -1,0 +1,5 @@
+{% for host in ansible_play_batch %}
+{% if hostvars[host].ansible_facts.packages['openssh-server'][0]['version'] is defined %}
+{{ host }},{{ hostvars }}
+{% endif %}
+{% endfor %}

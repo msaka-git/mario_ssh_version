@@ -1,0 +1,16 @@
+ansible_play_batch: special variable,is the list of active hosts in a play. If a host is not reachable, it won't be taken into consideration,it's ignored.
+package_facts: is a module which gives an information about installed packages.
+hostvars: special variable, a dictionary with the all hosts in inventory and variables assigned to them. It's not possible to see the content without populating it.
+ex: 
+{% for host in ansible_play_batch %}
+{% if hostvars[host].ansible_facts.packages['openssh-server'][0]['version'] is defined %}
+{{ host }},{{ hostvars[host].ansible_facts }}
+{% endif %}
+{% endfor %}
+
+this will write into ssh_packages.csv file all infos, including OS packages but with an ad-hoc command nope it's impossible.
+
+delegate_to: localhost, is used because we want to save our src file not in remote machine but in our local machine after collecting all necessary info.
+
+gather_facts can be viewed in an html page by using ansible-cmdb command.
+run_once: true, is set if a task may need to be executed at once (one time) during a playbook execution.
